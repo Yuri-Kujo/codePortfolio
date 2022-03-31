@@ -5,6 +5,10 @@ using Cinemachine;
 using Photon.Pun;
 using UnityEngine.UI;
 
+//------------------------------------------------------------------
+//Script destinado al movimiento y habilidades del explorador.
+//------------------------------------------------------------------
+
 public class ThirdControllerV2 : MonoBehaviour, IPunObservable
 {
     public Transform camara;
