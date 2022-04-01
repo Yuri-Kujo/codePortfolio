@@ -9,8 +9,10 @@ public class GolemFireball : MonoBehaviour
     public float pushForce;
     public int attackDamage;
     public float activeTime = 10f;
+
     private void Update()
     {
+        //Después de unos segundos (activeTime), la bala se destruye automáticamente.
         activeTime -= Time.deltaTime;
         if(activeTime <= 0)
         {
@@ -20,7 +22,7 @@ public class GolemFireball : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //Tiene mas fuerza vertical que horizontal
+        //Empuja hacia arriba al explorador que impacte.
         if (other.gameObject.CompareTag("Player"))
         {
             Debug.Log("Bolafuego tocó: " + gameObject.name);
@@ -39,6 +41,7 @@ public class GolemFireball : MonoBehaviour
 
             other.transform.GetComponent<AudioSource>().Play();
 
+            //El jugador que posee al golem envia la información del daño que inflingió al otro jugador montado a todos los jugadores (además de hacer la resta el mismo cliente)
             if (golemController.view.IsMine)
             {
                 other.GetComponent<GolemController>().view.RPC("GolemHPLoss", RpcTarget.All, (float)attackDamage);
@@ -48,6 +51,7 @@ public class GolemFireball : MonoBehaviour
         }
         else
         {
+            //Si toca otro objeto solido simplemente se destruye e instancia el VFX de impacto.
             PhotonNetwork.Instantiate("FB_Impact", transform.position, Quaternion.identity);
             PhotonNetwork.Destroy(gameObject);
         }

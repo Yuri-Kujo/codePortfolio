@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+//------------------------------------------------------------------
+// Al iniciar la partida, se instancia al jugador en una ubicación aleatoria del mapa en X y Z.
+//------------------------------------------------------------------
 public class SpawnPlayers : MonoBehaviour
 {
     public GameObject playerPrefab;

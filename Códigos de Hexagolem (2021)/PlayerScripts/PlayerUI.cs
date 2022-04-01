@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using TMPro;
-
+//------------------------------------------------------------------
+// UI del menú de pausa y al ganar o perder.
+//------------------------------------------------------------------
 public class PlayerUI : MonoBehaviour
 {
     [Header("Variables")]

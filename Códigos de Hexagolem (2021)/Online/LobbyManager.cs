@@ -5,6 +5,14 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
+//------------------------------------------------------------------
+// Script relacionado a la creación y unión a lobbies de juego.
+// Si no hay un lobby existente, el primer jugador creará uno automáticamente y será declarado el anfitrión de la partida.
+// Todo jugador que se una después, se unirá automáticamente a esta sala.
+// Una vez que hayan por lo menos 2 jugadores, el host puede empezar la partida presionando el botón de "Start Game".
+// Con el botón presionado, los jugadores avanzan a la escena de la partida despuées de los segundos indicados en la variable timerCountDown.
+//------------------------------------------------------------------
+
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
     public Transform listaDeJugadores;

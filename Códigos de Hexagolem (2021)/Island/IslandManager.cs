@@ -13,18 +13,16 @@ public class IslandManager : MonoBehaviour
     public float borderFallTime, midFallTime, centralFallTime;
     public float elevationPreFall;
     private PhotonView view;
+
     // Start is called before the first frame update
     void Awake()
     {
         view = GetComponent<PhotonView>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+    // El cliente del host es quien da la orden de que islas se caen al resto de los jugadores.
+    // Al cabo de un tiempo empiezan a caer los trozos de isla dentro de la lista hexaIslandsBorder (las islas al borde del mapa) de forma aleatoria.
+    // Después de otro tiempo, se suma a la caída los trozos de la lista hexaIslandsMid, y lo mismo pasa más tarde con hexaIslandsCentral.
     private void FixedUpdate()
     {
         if(PhotonNetwork.IsMasterClient)
@@ -54,6 +52,8 @@ public class IslandManager : MonoBehaviour
         }
     }
 
+    //Se elige aleatoriamente el trozo de isla que caerá. Esta tiembla por 10 segundos y luego cae.
+    //Al final, es removida de la lista de trozos de isla activos en el mapa.
     IEnumerator CaidaHexaIsla(List<GameObject> hexaIsla, List<SpriteRenderer> hexaImage, int islandsCount, int hexaImageList)
     {
         for (int i = 0; i < islandsCount; i++)
@@ -62,14 +62,11 @@ public class IslandManager : MonoBehaviour
             Debug.Log("Numero Random: " + numeroRandom);
             view.RPC("ChangeIslandColor", RpcTarget.All, (int)numeroRandom, (float)255f, (float)165f, (float)0f, (int)hexaImageList);
             hexaIsla[numeroRandom].GetComponent<Animator>().SetBool("isTemblando", true);
-            //hexaImage[numeroRandom].color = new Color(255, 165, 0);
             yield return new WaitForSeconds(10);
             hexaIsla[numeroRandom].GetComponent<Animator>().SetBool("isTemblando", false);
             hexaIsla[numeroRandom].GetComponent<Transform>().LeanMoveLocalY(elevationPreFall, 1);
             yield return new WaitForSeconds(1);
             view.RPC("ChangeIslandColor", RpcTarget.All, (int)numeroRandom, (float)255f, (float)0f, (float)0f, (int)hexaImageList);
-            //hexaImage[numeroRandom].color = Color.red;
-            //hexaIsla[numeroRandom].GetComponent<Rigidbody>().isKinematic = false;
             hexaIsla[numeroRandom].GetComponent<IslandFall>().isFalling = true;
             hexaIslandsFall.Add(hexaIsla[numeroRandom]);
             hexaIsla.RemoveAt(numeroRandom);
@@ -78,6 +75,7 @@ public class IslandManager : MonoBehaviour
         yield break;
     }
 
+    // Cambia el color del trozo de isla en el minimapa para indicar que está por caerse.
     [PunRPC]
     void ChangeIslandColor(int numeroIsla, float r, float g, float b, int hexaImageList)
     {

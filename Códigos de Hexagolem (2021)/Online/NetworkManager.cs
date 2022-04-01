@@ -81,7 +81,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsConnected)
         {
-            // #Critical we need at this point to attempt joining a Random Room. If it fails, we'll get notified in OnJoinRandomFailed() and we'll create one.
             Debug.LogWarning("Conectado a sala de espera");
             PhotonNetwork.JoinRandomRoom();
             PhotonNetwork.LoadLevel("Sala");
@@ -92,7 +91,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         Time.timeScale = 1f;
         PhotonNetwork.LeaveRoom();
-        while (PhotonNetwork.InRoom) yield return null;
+        while (PhotonNetwork.InRoom)
+        {
+            yield return null;
+        }
         PhotonNetwork.LoadLevel("MainMenu");
         Debug.Log("loading main");
     }

@@ -9,12 +9,12 @@ public class GolemIceBreath : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        //Tiene mas fuerza vertical que horizontal
+        //Ralentiza al explorador si no está montado en golem.
         if (collision.gameObject.CompareTag("Player"))
         {
             collision.GetComponent<ThirdControllerV2>().StartCoroutine("Slowness", slowMultiplier);
         }
-        //Quita vida al golem
+        //Ralentiza al golem si el jugador está montado.
         else if (collision.gameObject.CompareTag("Golem") && collision.transform.GetComponent<GolemController>().isMounted)
         {
             collision.GetComponent<GolemController>().StartCoroutine("Slowness", slowMultiplier);
