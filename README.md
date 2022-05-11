@@ -7,4 +7,5 @@ Esto debido a que no fui responsable de ese código en específico, o no me corr
 Ejemplos incluyen:
 
 -Scripts de sonido de Hexagolem
+
 -Scripts de conducción y ML de 31 Minutos Kart, debido a que venian en la base del proyecto "Karting Microgame" de Unity.
